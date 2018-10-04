@@ -1,0 +1,14 @@
+{
+	"manifest_version": 2,
+	"name": "Milesplit Follower",
+	"version": "1.0",
+	"description": "Follow athletes on Milesplit",
+	"background":{
+		"scripts": ["background.js"]
+	} ,
+	"page_action":{
+		"default_title": "Milesplit Follower",
+		"default_popup": "popup.html"
+	},
+	"permissions": ["tabs", "https://www.milesplit.com/"],
+}
