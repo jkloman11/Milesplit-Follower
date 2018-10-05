@@ -11,4 +11,9 @@
 		"default_popup": "popup.html"
 	},
 	"permissions": ["tabs", "https://www.milesplit.com/"],
+	"content_scripts": [{
+		"matches": ["https://www.runningahead.com/logs/*/workouts/*/edit"],
+		"js": ["content.js"]
+	}
+	]
 }
