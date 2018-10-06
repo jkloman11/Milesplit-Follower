@@ -3,16 +3,20 @@ window.addEventListener ("load", myMain, false);
 function follow(){
 	var id = getID();
 	var runner = getRunnerData(id);
-	console.log(runner);
 	chrome.storage.local.set(runner);
-	location.reload();
+	var follow = document.getElementById("follow");
+	var par = follow.parentElement;
+	par.removeChild(follow);
+	myMain(null);
 }
 
 function unfollow(){
 	var id = getID();
-	console.log(id);
 	chrome.storage.local.remove(id);
-	location.reload();
+	var follow = document.getElementById("follow");
+	var par = follow.parentElement;
+	par.removeChild(follow);
+	myMain(null);
 }
 
 function myMain (evt) {
@@ -22,7 +26,6 @@ function myMain (evt) {
     //check if we are already following
     var id = getID();
     var size = chrome.storage.local.getBytesInUse(id, function response(size){
-    	console.log(size);
 	    if(size > 0){
 	    	header.innerHTML =  name + "<button id=\'follow\'>Unfollow</button>";
 			document.getElementById("follow").addEventListener("click", unfollow);
