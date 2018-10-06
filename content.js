@@ -35,7 +35,6 @@ function myMain (evt) {
 			document.getElementById("follow").addEventListener("click", follow);
 		}
     });
-
 }
 
 //get the id of the runner on the current page
