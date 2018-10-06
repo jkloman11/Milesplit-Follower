@@ -1,16 +1,38 @@
 window.addEventListener ("load", myMain, false);
 
 function follow(){
-	var id = getID()
+	var id = getID();
 	var runner = getRunnerData(id);
-	insertRunner(runner);
+	console.log(runner);
+	chrome.storage.local.set(runner);
+	location.reload();
+}
+
+function unfollow(){
+	var id = getID();
+	console.log(id);
+	chrome.storage.local.remove(id);
+	location.reload();
 }
 
 function myMain (evt) {
     var header = document.getElementById("athleteName");
     var name = header.innerHTML;
-	header.innerHTML =  name + "<button id=\'follow\'>Follow</button>";
-	document.getElementById("follow").addEventListener("click", follow);
+
+    //check if we are already following
+    var id = getID();
+    var size = chrome.storage.local.getBytesInUse(id, function response(size){
+    	console.log(size);
+	    if(size > 0){
+	    	header.innerHTML =  name + "<button id=\'follow\'>Unfollow</button>";
+			document.getElementById("follow").addEventListener("click", unfollow);
+		}
+		else{
+			header.innerHTML =  name + "<button id=\'follow\'>Follow</button>";
+			document.getElementById("follow").addEventListener("click", follow);
+		}
+    });
+
 }
 
 //get the id of the runner on the current page
@@ -47,9 +69,4 @@ function getRunnerData(id){
 
 	runner[id] = prs;
 	return runner;
-}
-
-//get append the runner to storage for runners
-function insertRunner(runner){
-	chrome.storage.local.set(runner);
 }
