@@ -61,11 +61,11 @@ function getRunnerData(id){
 	var prs = {};
 	var prElements = document.getElementsByClassName("personal-record");
 	for(var i = 0; i < prElements.length; i++){
-		var time = prElements[i].innerHTML;
+		var time = prElements[i].innerHTML.trim();
 		var eventElement = prElements[i].parentElement.parentElement.parentElement.parentElement;
-		var event = eventElement.getElementsByClassName("event-heading")[0].innerHTML;
+		var event = eventElement.getElementsByClassName("event-heading")[0].innerHTML.trim();
 		var seasonElement = eventElement.parentElement;
-		event = event + " (" + seasonElement.getAttribute("data-season") + ")";
+		event = event + " (" + seasonElement.getAttribute("data-season").trim() + ")";
 		prs[event] = time;
 	}
 

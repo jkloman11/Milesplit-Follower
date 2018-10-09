@@ -59,3 +59,8 @@ function clearList() {
     ul.childNodes[i].removeChild();
   }
 }
+
+
+function unfollowAll(){
+    alert("Are you sure?");
+}
