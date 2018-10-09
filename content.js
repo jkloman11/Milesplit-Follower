@@ -64,6 +64,12 @@ function getID(){
 	return url.substring(start, end);
 }
 
+function getName(id){
+	var title = document.getElementsByTagName("title")[0];
+	var name = title.innerHTML.substring(0, title.innerHTML.indexOf("-")-1);
+	return name;
+}
+
 //return a runner
 function getRunnerData(id){
 	var runner = {};
@@ -77,7 +83,7 @@ function getRunnerData(id){
 		event = event + " (" + seasonElement.getAttribute("data-season").trim() + ")";
 		prs[event] = time;
 	}
-
+	prs["name"] = getName(id);
 	runner[id] = prs;
 	return runner;
 }
