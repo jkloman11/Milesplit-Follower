@@ -10,9 +10,9 @@
 		"default_title": "Milesplit Follower",
 		"default_popup": "popup.html"
 	},
-	"permissions": ["tabs", "https://www.milesplit.com/", "activeTab"],
+	"permissions": ["tabs", "https://www.milesplit.com/", "activeTab", "storage"],
 	"content_scripts": [{
-		"matches": ["http://*.milesplit.com/athletes/pro/*"],
+		"matches": ["*://*.milesplit.com/athletes/*/*"],
 		"js": ["content.js"],
 		"css": ["content_style.css"]
 	}
