@@ -1,6 +1,10 @@
 window.addEventListener ("load", myMain, false);
 
 function follow(){
+	if(!signedIn()){
+		alert("You must be signed in to Milesplit Pro to use this feature");
+		return
+	}
 	var id = getID();
 	var runner = getRunnerData(id);
 	chrome.storage.local.set(runner);
@@ -17,6 +21,11 @@ function unfollow(){
 	var par = follow.parentElement;
 	par.removeChild(follow);
 	myMain(null);
+}
+
+function signedIn(){
+	var pro = document.getElementById("proCallToAction");
+	return pro == null;
 }
 
 function myMain (evt) {
@@ -55,20 +64,26 @@ function getID(){
 	return url.substring(start, end);
 }
 
+function getName(id){
+	var title = document.getElementsByTagName("title")[0];
+	var name = title.innerHTML.substring(0, title.innerHTML.indexOf("-")-1);
+	return name;
+}
+
 //return a runner
 function getRunnerData(id){
 	var runner = {};
 	var prs = {};
 	var prElements = document.getElementsByClassName("personal-record");
 	for(var i = 0; i < prElements.length; i++){
-		var time = prElements[i].innerHTML;
+		var time = prElements[i].innerHTML.trim();
 		var eventElement = prElements[i].parentElement.parentElement.parentElement.parentElement;
-		var event = eventElement.getElementsByClassName("event-heading")[0].innerHTML;
+		var event = eventElement.getElementsByClassName("event-heading")[0].innerHTML.trim();
 		var seasonElement = eventElement.parentElement;
-		event = event + " (" + seasonElement.getAttribute("data-season") + ")";
+		event = event + " (" + seasonElement.getAttribute("data-season").trim() + ")";
 		prs[event] = time;
 	}
-
+	prs["name"] = getName(id);
 	runner[id] = prs;
 	return runner;
 }
