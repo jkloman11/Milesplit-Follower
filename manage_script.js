@@ -17,6 +17,7 @@ function unfollow(){
 			i--;
 		}
 	}
+	chrome.tabs.reload();
 }
 
 function selectAll(){

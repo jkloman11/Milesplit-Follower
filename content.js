@@ -3,7 +3,7 @@ window.addEventListener ("load", myMain, false);
 function follow(){
 	if(!signedIn()){
 		alert("You must be signed in to Milesplit Pro to use this feature");
-		return
+		return;
 	}
 	var id = getID();
 	var runner = getRunnerData(id);
