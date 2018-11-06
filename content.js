@@ -1,11 +1,13 @@
 window.addEventListener ("load", myMain, false);
 
 function follow(){
+	console.log("we tryna follow");
 	if(!signedIn()){
 		alert("You must be signed in to Milesplit Pro to use this feature");
 		return;
 	}
 	var id = getID();
+	console.log(id);
 	var runner = getRunnerData(id);
 	chrome.storage.local.set(runner);
 	var follow = document.getElementById("follow");
@@ -15,6 +17,7 @@ function follow(){
 }
 
 function unfollow(){
+	console.log("we tryna unfollow");
 	var id = getID();
 	chrome.storage.local.remove(id);
 	var follow = document.getElementById("follow");
@@ -52,6 +55,7 @@ function getID(){
 	var start = null;
 	var end = null;
 
+	console.log(url.split("/"))
 	for(var i = 0; i < url.length; i++){
 		if(start == null && !isNaN(Number(url.charAt(i))))
 			start = i;
@@ -84,6 +88,7 @@ function getRunnerData(id){
 		prs[event] = time;
 	}
 	prs["name"] = getName(id);
+	prs["pr?"] = false;
 	runner[id] = prs;
 	return runner;
 }

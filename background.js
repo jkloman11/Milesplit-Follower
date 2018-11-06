@@ -37,7 +37,6 @@ function isEquivalent(a, b) {
 function generateNotifications(doc, id, runner){
 	var newrunner = getRunnerData(doc, id)[id];
 	var oldrunner = runner;
-	var lst = chrome.storage.get(pr)
 	if(newrunner.toString() != oldrunner.toString()){
 		newrunner["pr?"] = true
 		chrome.storage.local.set({id : newrunner});
