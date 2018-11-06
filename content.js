@@ -53,25 +53,11 @@ function myMain (evt) {
 function getID(){
 	var url = window.location.href;
 	var urlParts = url.split(/[\\\/]|-/);
-	console.log(urlParts)
 
-<<<<<<< HEAD
-	console.log(url.split("/"))
-	for(var i = 0; i < url.length; i++){
-		if(start == null && !isNaN(Number(url.charAt(i))))
-			start = i;
-		if(start != null && isNaN(Number(url.charAt(i))))
-			end = i;
-		if(end != null)
-			break;
-	}
-
-	return url.substring(start, end);
-=======
 	for(var i = 0; i < url.length; i++)
 		if(!isNaN(Number(urlParts[i])) && urlParts[i].length > 0)
 			return urlParts[i];
->>>>>>> 96c1ff380da42dc1b1fcdc5aeed6c68c89ca4328
+
 }
 
 function getName(id){
