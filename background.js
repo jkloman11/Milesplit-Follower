@@ -16,7 +16,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 function prRequest(id, runner){
 	var doc = document.createElement("html");
 	var request = new XMLHttpRequest();
-    request.open("GET", "http://milesplit.com/athletes/pro/"+id+"/stats");
+    request.open("GET", "http://milesplit.com/athletes/"+id);
 	request.onreadystatechange = function() {
         if (this.readyState == this.DONE && this.status == 200) {
             if (this.responseText) {
@@ -30,16 +30,34 @@ function prRequest(id, runner){
 	request.send();
 }
 
-function isEquivalent(a, b) {
-	//Maybe we will do for better notifications
+function isEqual(a, b) {
+	var akeys = Object.keys(a);
+	var bkeys = Object.keys(b);
+
+	if(akeys.length != bkeys.length)
+		return false;
+
+	//check times
+	for(var i = 0; i < akeys.length; i++){
+		var key = akeys[i];
+		if(bkeys.indexOf(key) < 0 || a[key] != b[key]){
+			return false;
+		}
+	}
+	return true;
 }
 
 function generateNotifications(doc, id, runner){
+	if(runner["pr?"])
+		return;
+
 	var newrunner = getRunnerData(doc, id)[id];
 	var oldrunner = runner;
-	if(newrunner.toString() != oldrunner.toString()){
+	if(!isEqual(oldrunner, newrunner)){
 		newrunner["pr?"] = true
-		chrome.storage.local.set({id : newrunner});
+		var notification = {};
+		notification[id] = newrunner;
+		chrome.storage.local.set(notification);
 	}
 }
 

@@ -6,7 +6,6 @@ function follow(){
 		return;
 	}
 	var id = getID();
-	console.log(id);
 	var runner = getRunnerData(id);
 	chrome.storage.local.set(runner);
 	var follow = document.getElementById("follow");
@@ -51,7 +50,6 @@ function myMain (evt) {
 function getID(){
 	var url = window.location.href;
 	var urlParts = url.split(/[\\\/]|-/);
-	console.log(urlParts)
 
 	for(var i = 0; i < url.length; i++)
 		if(!isNaN(Number(urlParts[i])) && urlParts[i].length > 0)
@@ -80,6 +78,5 @@ function getRunnerData(id){
 	prs["name"] = getName(id);
 	prs["pr?"] = false;
 	runner[id] = prs;
-	console.log(runner);
 	return runner;
 }
