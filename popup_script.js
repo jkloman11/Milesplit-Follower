@@ -1,66 +1,49 @@
-var runners = new Array();
+chrome.storage.local.get(null, displayRunners);
 
-window.onload = init;
+document.getElementById("clear").addEventListener("click", clear);
+document.getElementById("select-all").addEventListener("click", selectAll);
 
-function init() {
-    getRunnerData();
-}
+function clear(){
 
-function getRunnerData() {
-    var request = new XMLHttpRequest();
-    request.open("GET", "runners.json");
-    request.onreadystatechange = function() {
-        if (this.readyState == this.DONE && this.status == 200) {
-            if (this.responseText) {
-                parseRunners(this.responseText)
-                loadList();
-            }
-            else { console.log("Error"); }
+    var checkboxes = document.getElementsByTagName("input");
+    for (var i = 0; i < checkboxes.length; i++){
+        if(checkboxes[i].checked){
+            chrome.storage.local.remove(checkboxes[i].parentElement.value + "");
+            var lineitem = checkboxes[i].parentElement;
+            var list = document.getElementById("runnersList");
+            list.removeChild(lineitem);
+            i--;
         }
-    };
-    request.send();
+    }
+    chrome.tabs.reload();
 }
 
-function parseRunners(runnersJSON) {
-    if (runnersJSON == null) {
-        return;
-    }
-    var runnersArray = JSON.parse(runnersJSON);
-    if (runnersArray.length == 0) {
-        return;
-    }
-    for (var i = 0; i < runnersArray.length; i++) {
-        var runner = runnersArray[i];
-        runners.push(runner);
+function selectAll(){
+    var checkboxes = document.getElementsByTagName("input");
+    for(var i = 0; i < checkboxes.length; i++)
+        checkboxes[i].checked = true;
+}
+
+function displayRunners(data){
+    var ids = Object.keys(data);
+    for(var i = 0; i < ids.length; i++){
+        if(isNaN(Number(ids[i])))
+            continue;
+        if(!data[ids[i]]["pr?"])
+            continue;
+
+        var name = data[ids[i]]["name"];
+        var list = document.getElementById("runnersList");
+        var runner = document.createElement("li");
+        runner.setAttribute("value", ids[i]);
+        runner.innerHTML = "<input type=\'checkbox\'><a href=\'\'> " + name + "</a>";
+        list.appendChild(runner);
+        runner.getElementsByTagName("a")[0].addEventListener("click", link);
     }
 }
 
-function loadList() {
-    var ul = document.getElementById("runnersList");
-    for (var i = 0; i < runners.length; i++) {
-        var runner = runners[i];
-        var li = document.createElement("li");
-        li.innerHTML = "<a href='"+runner.link+"'>"+ runner.name +"</a>" ;;
-
-        ul.appendChild(li);
-    }
-}
-
-window.addEventListener('click',function(e){
-  if(e.target.href!==undefined){
-    chrome.tabs.update({url:e.target.href})
-  }
-})
-
-function clearList() {
-  var ul = document.querySelector('runnersList');
-
-  for (i = 0; i < ul.children.length; i++) {
-    ul.childNodes[i].removeChild();
-  }
-}
-
-
-function unfollowAll(){
-    alert("Are you sure?");
+function link(e){
+    //var newURL = "http://pa.milesplit.com/athletes/pro/2911907/stats";
+    var newURL = "http://milesplit.com/athletes/" + e.target.parentElement.value + "/stats";
+    chrome.tabs.update({url:newURL});
 }

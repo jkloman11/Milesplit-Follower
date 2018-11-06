@@ -52,9 +52,10 @@ function myMain (evt) {
 //get the id of the runner on the current page
 function getID(){
 	var url = window.location.href;
-	var start = null;
-	var end = null;
+	var urlParts = url.split(/[\\\/]|-/);
+	console.log(urlParts)
 
+<<<<<<< HEAD
 	console.log(url.split("/"))
 	for(var i = 0; i < url.length; i++){
 		if(start == null && !isNaN(Number(url.charAt(i))))
@@ -66,6 +67,11 @@ function getID(){
 	}
 
 	return url.substring(start, end);
+=======
+	for(var i = 0; i < url.length; i++)
+		if(!isNaN(Number(urlParts[i])) && urlParts[i].length > 0)
+			return urlParts[i];
+>>>>>>> 96c1ff380da42dc1b1fcdc5aeed6c68c89ca4328
 }
 
 function getName(id){
@@ -90,5 +96,6 @@ function getRunnerData(id){
 	prs["name"] = getName(id);
 	prs["pr?"] = false;
 	runner[id] = prs;
+	console.log(runner);
 	return runner;
 }
