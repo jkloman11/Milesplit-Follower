@@ -30,13 +30,18 @@ function prRequest(id, runner){
 	request.send();
 }
 
+function isEquivalent(a, b) {
+	//Maybe we will do for better notifications
+}
+
 function generateNotifications(doc, id, runner){
 	var newrunner = getRunnerData(doc, id)[id];
 	var oldrunner = runner;
-	console.log("new new new");
-	console.log(newrunner);
-	console.log(oldrunner);	
-	console.log(newrunner == oldrunner);
+	var lst = chrome.storage.get(pr)
+	if(newrunner.toString() != oldrunner.toString()){
+		newrunner["pr?"] = true
+		chrome.storage.local.set({id : newrunner});
+	}
 }
 
 
@@ -60,6 +65,7 @@ function getRunnerData(doc, id){
 		prs[event] = time;
 	}
 	prs["name"] = getName(doc, id);
+	prs["pr?"] = false;
 	runner[id] = prs;
 	return runner;
 }
