@@ -8,7 +8,8 @@
 	} ,
 	"page_action":{
 		"default_title": "Milesplit Follower",
-		"default_popup": "popup.html"
+		"default_popup": "popup.html",
+		"default_icon": "icon.png"
 	},
 	"permissions": ["tabs", "https://www.milesplit.com/", "activeTab", "storage"],
 	"content_scripts": [{

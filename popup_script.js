@@ -8,7 +8,11 @@ function clear(){
     var checkboxes = document.getElementsByTagName("input");
     for (var i = 0; i < checkboxes.length; i++){
         if(checkboxes[i].checked){
-            chrome.storage.local.remove(checkboxes[i].parentElement.value + "");
+            var id = checkboxes[i].parentElement.value + "";
+            chrome.storage.local.get(id, function response(data){
+                data[id]["pr?"] = false;
+                chrome.storage.local.set(data);
+            });
             var lineitem = checkboxes[i].parentElement;
             var list = document.getElementById("runnersList");
             list.removeChild(lineitem);
