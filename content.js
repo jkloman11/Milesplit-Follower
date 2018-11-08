@@ -7,12 +7,26 @@ function follow(){
 		return;
 	}
 	var id = getID();
-	var runner = getRunnerData(id);
-	chrome.storage.local.set(runner);
-	var follow = document.getElementById("follow");
-	var par = follow.parentElement;
-	par.removeChild(follow);
-	myMain(null);
+
+	var doc = document.createElement("html");
+	var request = new XMLHttpRequest();
+    request.open("GET", "http://milesplit.com/athletes/"+id);
+	request.onreadystatechange = function() {
+        if (this.readyState == this.DONE && this.status == 200) {
+            if (this.responseText) {
+				var url = this.responseText.substring(37,this.responseText.length-7);
+                doc.innerHTML = url;
+				var runner = getRunnerData(doc, id, runner);
+				chrome.storage.local.set(runner);
+				var follow = document.getElementById("follow");
+				var par = follow.parentElement;
+				par.removeChild(follow);
+				myMain(null);
+            }
+            else { console.log("Error"); }
+        }
+    };
+	request.send();
 }
 
 function unfollow(){
@@ -51,12 +65,12 @@ function myMain (evt) {
 //get the id of the runner on the current page
 function getID(){
 	var url = window.location.href;
-	var urlParts = url.split(/[\\\/]|-/);
-
-	for(var i = 0; i < url.length; i++)
-		if(!isNaN(Number(urlParts[i])) && urlParts[i].length > 0)
-			return urlParts[i];
-
+	var id = parseInt(url);
+	while(isNaN(id)){
+		url = url.substring(1);
+		id = parseInt(url);
+	}
+	return String(id);
 }
 
 function getName(id){
@@ -66,10 +80,10 @@ function getName(id){
 }
 
 //return a runner
-function getRunnerData(id){
+function getRunnerData(doc, id){
 	var runner = {};
 	var prs = {};
-	var prElements = document.getElementsByClassName("personal-record");
+	var prElements = doc.getElementsByClassName("personal-record");
 	for(var i = 0; i < prElements.length; i++){
 		var time = prElements[i].innerHTML.trim();
 		var eventElement = prElements[i].parentElement.parentElement.parentElement.parentElement;
@@ -78,7 +92,7 @@ function getRunnerData(id){
 		event = event + " (" + seasonElement.getAttribute("data-season").trim() + ")";
 		prs[event] = time;
 	}
-	prs["name"] = getName(id);
+	prs["name"] = getName(doc, id);
 	prs["pr?"] = false;
 	runner[id] = prs;
 	return runner;
