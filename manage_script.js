@@ -43,7 +43,6 @@ function displayRunners(data){
 }
 
 function link(e){
-	//var newURL = "http://pa.milesplit.com/athletes/pro/2911907/stats";
-	var newURL = "http://milesplit.com/athletes/" + e.target.parentElement.value + "/stats";
+	var newURL = "https://milesplit.com/athletes/" + e.target.parentElement.value + "/stats";
 	chrome.tabs.update({url:newURL});
 }

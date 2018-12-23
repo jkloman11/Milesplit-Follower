@@ -10,7 +10,7 @@ function follow(){
 
 	var doc = document.createElement("html");
 	var request = new XMLHttpRequest();
-    request.open("GET", "http://milesplit.com/athletes/"+id);
+    request.open("GET", "https://milesplit.com/athletes/"+id);
 	request.onreadystatechange = function() {
         if (this.readyState == this.DONE && this.status == 200) {
             if (this.responseText) {
